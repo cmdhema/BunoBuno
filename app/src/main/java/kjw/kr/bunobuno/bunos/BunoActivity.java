@@ -1,15 +1,16 @@
-package kjw.kr.bunobuno;
+package kjw.kr.bunobuno.bunos;
 
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import kjw.kr.bunobuno.R;
 import kjw.kr.bunobuno.util.ActivityUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class BunoActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
@@ -31,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
         if ( navigationView != null )
             setupDrawerContent(navigationView);
 
-        MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        BunoFragment bunoFragment = (BunoFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
-        if ( mainFragment == null ) {
-            mainFragment = MainFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mainFragment, R.id.contentFrame);
+        if ( bunoFragment == null ) {
+            bunoFragment = BunoFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), bunoFragment, R.id.contentFrame);
         }
 
 
