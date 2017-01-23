@@ -1,9 +1,11 @@
 package kjw.kr.bunobuno.bunos.sites;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import kjw.kr.bunobuno.bunos.addedit.AddEditSiteActivity;
 import kjw.kr.bunobuno.data.Site;
 import kjw.kr.bunobuno.data.source.SitesDataSource;
 import kjw.kr.bunobuno.data.source.SitesRepository;
@@ -44,6 +46,14 @@ public class SitesPresenter implements SitesContract.Presenter {
     @Override
     public void openSiteDetails(@NonNull Site requestedSite) {
 
+    }
+
+    @Override
+    public void result(int requestCode, int resultCode) {
+        // If a task was successfully added, show snackbar
+        if (AddEditSiteActivity.REQUEST_ADD_TASK == requestCode && Activity.RESULT_OK == resultCode) {
+            mSitesView.showSuccessfullySavedMessage();
+        }
     }
 
     @Override

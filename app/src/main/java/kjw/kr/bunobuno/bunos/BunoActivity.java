@@ -7,12 +7,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import kjw.kr.bunobuno.Injection;
 import kjw.kr.bunobuno.R;
+import kjw.kr.bunobuno.bunos.sites.SitesPresenter;
 import kjw.kr.bunobuno.util.ActivityUtils;
 
 public class BunoActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+
+    private SitesPresenter mSitesPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class BunoActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), bunoFragment, R.id.contentFrame);
         }
 
+        mSitesPresenter = new SitesPresenter(Injection.provideSitesRepository(getApplicationContext()), bunoFragment);
 
     }
 
