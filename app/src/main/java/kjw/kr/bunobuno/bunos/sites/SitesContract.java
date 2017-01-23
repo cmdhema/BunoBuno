@@ -19,11 +19,15 @@ public interface SitesContract {
         void showAddSite();
         void showSiteDetailUi(String siteId);
         void setLoadingIndicator(boolean active);
+
+        void showSuccessfullySavedMessage();
     }
 
     interface Presenter extends BasePresenter {
         void loadSites(boolean forceUpdate);
         void addNewSite();
         void openSiteDetails(@NonNull Site requestedSite);
+
+        void result(int requestCode, int resultCode);
     }
 }
