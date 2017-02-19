@@ -1,5 +1,7 @@
 package kjw.kr.bunobuno.data.source.sites;
 
+import com.google.common.collect.Lists;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -39,6 +41,7 @@ public class SitesPresenterTest {
     public void setupSitesPresenter() {
         MockitoAnnotations.initMocks(this);
         mSitesPresenter = new SitesPresenter(mSitesRepository, mSitesView);
+        SITES = Lists.newArrayList(new Site("Title1", "Password"), new Site("Title2", "Password"));
     }
 
     @Test

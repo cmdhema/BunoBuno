@@ -17,6 +17,6 @@ public class Injection {
     public static SitesRepository provideSitesRepository(@NonNull Context context ) {
         checkNotNull(context);
 
-        return SitesRepository.getInstance(SitesRemoteDataSource.getInstance(), SitesLocalDataSource.getInstance());
+        return SitesRepository.getInstance(SitesRemoteDataSource.getInstance(), SitesLocalDataSource.getInstance(context));
     }
 }

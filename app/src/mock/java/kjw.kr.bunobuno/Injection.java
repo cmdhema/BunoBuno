@@ -19,11 +19,7 @@ package kjw.kr.bunobuno;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
-import com.example.android.architecture.blueprints.todoapp.data.source.local.TasksLocalDataSource;
-
+import kjw.kr.bunobuno.data.FakeSitesRemoteDataSource;
 import kjw.kr.bunobuno.data.source.SitesRepository;
 import kjw.kr.bunobuno.data.source.local.SitesLocalDataSource;
 
@@ -31,7 +27,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Enables injection of mock implementations for
- * {@link TasksDataSource} at compile time. This is useful for testing, since it allows us to use
+ * {@link kjw.kr.bunobuno.data.source.SitesDataSource} at compile time. This is useful for testing, since it allows us to use
  * a fake instance of the class to isolate the dependencies and run a test hermetically.
  */
 public class Injection {

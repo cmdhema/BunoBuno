@@ -16,6 +16,8 @@ import java.util.List;
 
 import kjw.kr.bunobuno.data.Site;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -31,7 +33,7 @@ public class SitesRepositoryTest {
 
     private static List<Site> SITES = Lists.newArrayList(new Site("Title1", "Password"), new Site("Title2", "Password"));
 
-    private SitesRepository mSItesRepository;
+    private SitesRepository mSitesRepository;
 
     @Mock
     private SitesDataSource mSitesRemoteDataSource;
@@ -52,13 +54,13 @@ public class SitesRepositoryTest {
     private ArgumentCaptor<SitesDataSource.LoadSitesCallback> mSitesCallbackCaptor;
 
     @Captor
-    private ArgumentCaptor<SitesDataSource.GetSiteCallback> mSIteCallbackCaptor;
+    private ArgumentCaptor<SitesDataSource.GetSiteCallback> mSiteCallbackCaptor;
 
     @Before
     public void setupSitesRepository() {
         MockitoAnnotations.initMocks(this);
 
-        mSItesRepository = SitesRepository.getInstance(mSitesRemoteDataSource, mSitesLocalDataSource);
+        mSitesRepository = SitesRepository.getInstance(mSitesRemoteDataSource, mSitesLocalDataSource);
     }
 
     @After
@@ -73,7 +75,7 @@ public class SitesRepositoryTest {
 
     @Test
     public void getSites_requestAllSitesFromLocalDataSource() {
-        mSItesRepository.getSites(mLoadSitesCallback);
+        mSitesRepository.getSites(mLoadSitesCallback);
         verify(mSitesLocalDataSource).getSites(any(SitesDataSource.LoadSitesCallback.class));
     }
 
@@ -82,10 +84,36 @@ public class SitesRepositoryTest {
 
         Site newSite = new Site(SITE_TITLE, "password");
 
-        mSItesRepository.saveSite(newSite);
+        // When a task is saved to the tasks repository
+        mSitesRepository.saveSite(newSite);
+
+        // Then the service API and persistent repository are called and the cache is updated
+        verify(mSitesLocalDataSource).saveSite(newSite);
+        verify(mSitesRemoteDataSource).saveSite(newSite);
+        assertThat(mSitesRepository.mCachedSites.size(), is(1));
     }
 
+    /**
+     * Convenience method that issues two calls to the tasks repository
+     */
     private void twoTasksLoadCallsToRepository(SitesDataSource.LoadSitesCallback callback) {
+
+        // When tasks are requested from repository
+        mSitesRepository.getSites(callback);
+
+        // Use the Mockito Captor to capture the callback
+        verify(mSitesLocalDataSource).getSites(mSitesCallbackCaptor.capture());
+
+        // Local data source doesn't have data yet
+        mSitesCallbackCaptor.getValue().onDataNotAvailable();
+
+        // Verify the remote data source is queried
+        verify(mSitesRemoteDataSource).getSites(mSitesCallbackCaptor.capture());
+
+        // Trigger callback so tasks are cached
+        mSitesCallbackCaptor.getValue().onSitesLoaded(SITES);
+
+        mSitesRepository.getSites(callback);
 
     }
 }
