@@ -6,4 +6,5 @@
     <string name="site_title_hint">Enter Site name</string>
     <string name="site_password_hint">Enter Site password</string>
     <string name="successfully_saved_task_message">Buno Saved</string>
+    <string name="empty_task_message">Title Cannot be empty</string>
 </resources>
