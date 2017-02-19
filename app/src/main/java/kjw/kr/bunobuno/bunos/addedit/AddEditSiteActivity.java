@@ -8,12 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import kjw.kr.bunobuno.Injection;
 import kjw.kr.bunobuno.R;
 import kjw.kr.bunobuno.util.ActivityUtils;
 
 public class AddEditSiteActivity extends AppCompatActivity {
 
     public static final int REQUEST_ADD_TASK = 1;
+
+    private AddEditSitePresenter mAddEditSitePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,11 @@ public class AddEditSiteActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), addEditSiteFragment, R.id.contentFrame);
         }
 
+        boolean shouldLoadDataFromRepo = true;
+
+        mAddEditSitePresenter = new AddEditSitePresenter(siteId, Injection.provideSitesRepository(getApplicationContext()), addEditSiteFragment, shouldLoadDataFromRepo);
+
+        addEditSiteFragment.setPresenter(mAddEditSitePresenter);
     }
 
 }

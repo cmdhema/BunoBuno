@@ -34,7 +34,7 @@ public class SitesPresenter implements SitesContract.Presenter {
 
     @Override
     public void loadSites(boolean forceUpdate) {
-        loadTasks(forceUpdate || mFirstLoad, true);
+        loadSites(forceUpdate || mFirstLoad, true);
         mFirstLoad = false;
     }
 
@@ -61,7 +61,7 @@ public class SitesPresenter implements SitesContract.Presenter {
 
     }
 
-    private void loadTasks(boolean forceUpdate, final boolean showLoadingUI) {
+    private void loadSites(boolean forceUpdate, final boolean showLoadingUI) {
         if ( showLoadingUI )
             mSitesView.setLoadingIndicator(true);
 
@@ -84,7 +84,9 @@ public class SitesPresenter implements SitesContract.Presenter {
                 }
 
                 mSitesView.setLoadingIndicator(false);
-                mSitesView.showSites(sites);
+//                mSitesView.showSites(sites);
+
+                processSites(sites);
             }
 
             @Override
@@ -92,6 +94,13 @@ public class SitesPresenter implements SitesContract.Presenter {
 
             }
         });
+    }
+
+    private void processSites(List<Site> sites) {
+        if ( sites.isEmpty() ) {
+        } else {
+            mSitesView.showSites(sites);
+        }
     }
 
 }

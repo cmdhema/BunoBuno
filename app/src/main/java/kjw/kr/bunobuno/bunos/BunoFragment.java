@@ -90,7 +90,7 @@ public class BunoFragment extends Fragment implements SitesContract.View {
 
     @Override
     public void showSites(List<Site> sites) {
-
+        //refreshData(sites);
     }
 
     @Override

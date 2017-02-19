@@ -1,5 +1,10 @@
 package kjw.kr.bunobuno.bunos.addedit;
 
+import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,21 +14,46 @@ import android.widget.TextView;
 
 import kjw.kr.bunobuno.R;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class AddEditSiteFragment extends Fragment {
+public class AddEditSiteFragment extends Fragment implements AddEditSiteContract.View{
 
     public static final String ARGUMENT_EDIT_SITE_ID = "EDIT_SITE_ID";
 
     private TextView mTitleTv;
     private TextView mPasswordTv;
 
+    private AddEditSiteContract.Presenter mAddEditSitePresenter;
+
     public AddEditSiteFragment() {
     }
 
     public static AddEditSiteFragment newInstance() {
         return new AddEditSiteFragment();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAddEditSitePresenter.start();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_task_done);
+        fab.setImageResource(R.drawable.ic_done);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAddEditSitePresenter.saveSite(mTitleTv.getText().toString(), mPasswordTv.getText().toString());
+            }
+        });
     }
 
     @Override
@@ -37,4 +67,29 @@ public class AddEditSiteFragment extends Fragment {
     }
 
 
+    @Override
+    public void showSitesList() {
+        getActivity().setResult(Activity.RESULT_OK);
+        getActivity().finish();
+    }
+
+    @Override
+    public void showEmptySiteError() {
+        Snackbar.make(mTitleTv, getString(R.string.empty_task_message), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setTitle(String title) {
+
+    }
+
+    @Override
+    public void setPassword(String password) {
+
+    }
+
+    @Override
+    public void setPresenter(@NonNull AddEditSiteContract.Presenter presenter) {
+        mAddEditSitePresenter = checkNotNull(presenter);
+    }
 }
