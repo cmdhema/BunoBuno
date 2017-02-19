@@ -1,11 +1,24 @@
 package kjw.kr.bunobuno.data.source.local;
 
+import android.provider.BaseColumns;
+
 /**
  * Created by kjwook on 2017. 1. 22..
  */
 
 public class DBScheme {
 
+    public static abstract class SiteEntry  implements BaseColumns {
+        public static final String TABLE_NAME = "SITE";
+        public static final String ENTRY_TITLE = "Title";
+        public static final String ENTRY_PASSWORD = "Password";
+        public static final String ENTRY_ID = "entryId";
+
+        public static String createSiteTable() {
+            return String.format("create table %s ( %s text, %s text, %s text PRIMARY KEY );", TABLE_NAME, ENTRY_TITLE, ENTRY_PASSWORD, ENTRY_ID);
+        }
+
+    }
 //    public static String createUserInfoTable() {
 //        return "create table USER ( PhoneNumber text, Password text, Hint text, PasswordFlag integer, HintItem integer );";
 //    }
@@ -17,10 +30,6 @@ public class DBScheme {
 //    public static String createSiteTable() {
 //        return "create table SITE ( Title text, Name text, Password text, PRIMARY KEY (Title) );";
 //    }
-
-    public static String createSiteTable() {
-        return "create table SITE ( id test, Title text, Password text, PRIMARY KEY (id) );";
-    }
 
 //    public static String createCustomTable() {
 //        return "create table CUSTOM ( Title text, Name text, Password text, PRIMARY KEY (Title) );";

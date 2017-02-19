@@ -24,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
 //        db.execSQL(DBScheme.createAccountTable());
 //        db.execSQL(DBScheme.createCustomTable());
 //        db.execSQL(DBScheme.createPhotoTable());
-        db.execSQL(DBScheme.createSiteTable());
+        db.execSQL(DBScheme.SiteEntry.createSiteTable());
 //        db.execSQL(DBScheme.createBankTable());
     }
 
