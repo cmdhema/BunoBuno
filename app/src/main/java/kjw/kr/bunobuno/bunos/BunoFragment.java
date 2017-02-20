@@ -1,5 +1,6 @@
 package kjw.kr.bunobuno.bunos;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,11 +8,16 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kjw.kr.bunobuno.R;
@@ -27,9 +33,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class BunoFragment extends Fragment implements SitesContract.View {
 
-    private BunoAdapter mListAdapter;
+    private BunoExpandableListAdapter mListAdapter;
 
     private SitesContract.Presenter mSitesPresenter;
+
+    private RecyclerView recyclerView;
+
 
     public BunoFragment() {
 
@@ -72,7 +81,17 @@ public class BunoFragment extends Fragment implements SitesContract.View {
                 mSitesPresenter.addNewSite();
             }
         });
+        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
+        List<BunoExpandableListAdapter.RecyclerItem> data = new ArrayList<>();
+        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.HEADER, "Fruits", "Apple", ""));
+        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.CHILD, "Fruits", "Pine", ""));
+        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.CHILD, "Fruits", "Straw", ""));
+        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.HEADER, "Car", "Sonata", ""));
+        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.CHILD, "Car", "Audi", ""));
+
+        recyclerView.setAdapter(new BunoExpandableListAdapter(data));
         return root;
     }
 
@@ -117,29 +136,6 @@ public class BunoFragment extends Fragment implements SitesContract.View {
     @Override
     public void setPresenter(@NonNull SitesContract.Presenter presenter) {
         mSitesPresenter = checkNotNull(presenter);
-    }
-
-    private static class BunoAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            return null;
-        }
     }
 
     private void showMessage(String message) {
