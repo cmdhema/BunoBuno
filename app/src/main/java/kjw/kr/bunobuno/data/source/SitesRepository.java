@@ -2,6 +2,7 @@ package kjw.kr.bunobuno.data.source;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -46,28 +47,47 @@ public class SitesRepository implements SitesDataSource {
     @Override
     public void getSites(@NonNull final LoadSitesCallback callback) {
         checkNotNull(callback);
-
+        Log.i("SitesRepository", "1");
         if ( mCachedSites != null && !mCacheIsDirty ) {
+            Log.i("SitesRepository", "2");
             callback.onSitesLoaded(new ArrayList<>(mCachedSites.values()));
             return;
         }
 
-        if ( mCacheIsDirty ) {
-            getSitesFromRemoteDataSource(callback);
-        } else {
+//        if ( mCacheIsDirty ) {
+//            Log.i("SitesRepository", "3");
+//            getSitesFromRemoteDataSource(callback);
+//        } else {
+//            mSitesLocalDataSource.getSites(new LoadSitesCallback() {
+//                @Override
+//                public void onSitesLoaded(List<Site> sites) {
+//                    Log.i("SitesRepository", sites.get(0).getTitle());
+//                    refreshCache(sites);
+//                    callback.onSitesLoaded(new ArrayList<>(mCachedSites.values()));
+//                }
+//
+//                @Override
+//                public void onDataNotAvailable() {
+//                    Log.i("SitesRepository", "4");
+//                    getSitesFromRemoteDataSource(callback);
+//                }
+//            });
+//        }
+
             mSitesLocalDataSource.getSites(new LoadSitesCallback() {
                 @Override
                 public void onSitesLoaded(List<Site> sites) {
+                    Log.i("SitesRepository", sites.get(0).getTitle());
                     refreshCache(sites);
                     callback.onSitesLoaded(new ArrayList<>(mCachedSites.values()));
                 }
 
                 @Override
                 public void onDataNotAvailable() {
+                    Log.i("SitesRepository", "4");
                     getSitesFromRemoteDataSource(callback);
                 }
             });
-        }
     }
 
     private void refreshCache(List<Site> sites ) {
@@ -79,7 +99,7 @@ public class SitesRepository implements SitesDataSource {
             mCachedSites.put(site.getId(), site);
         }
 
-        mCacheIsDirty = true;
+        mCacheIsDirty = false;
     }
 
     @Override

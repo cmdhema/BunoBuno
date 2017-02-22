@@ -1,4 +1,4 @@
-package kjw.kr.bunobuno.bunos.addedit;
+package kjw.kr.bunobuno.bunos.sites.addedit;
 
 import kjw.kr.bunobuno.BasePresenter;
 import kjw.kr.bunobuno.BaseView;

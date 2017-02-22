@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 
 import kjw.kr.bunobuno.Injection;
 import kjw.kr.bunobuno.R;
+import kjw.kr.bunobuno.bunos.bank.BankPresenter;
 import kjw.kr.bunobuno.bunos.sites.SitesPresenter;
 import kjw.kr.bunobuno.util.ActivityUtils;
 
@@ -17,6 +18,7 @@ public class BunoActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
 
     private SitesPresenter mSitesPresenter;
+    private BankPresenter mBankPresenver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class BunoActivity extends AppCompatActivity {
         }
 
         mSitesPresenter = new SitesPresenter(Injection.provideSitesRepository(getApplicationContext()), bunoFragment);
-
+        mBankPresenver = new BankPresenter(Injection.provideBankRepository(getApplicationContext()), bunoFragment);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {

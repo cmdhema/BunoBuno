@@ -22,10 +22,12 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
     public static final int HEADER = 0;
     public static final int CHILD = 1;
 
-    private List<RecyclerItem> bunoList;
+    private List<BunoItem> bunoList;
+    private BunoFragment.SiteItemListener listener;
 
-    public BunoExpandableListAdapter(List<RecyclerItem> data) {
+    public BunoExpandableListAdapter(List<BunoItem> data, BunoFragment.SiteItemListener listener) {
         this.bunoList = data;
+        this.listener = listener;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        final RecyclerItem data = bunoList.get(position);
+        final BunoItem data = bunoList.get(position);
 
         switch (data.type) {
             case HEADER: {
@@ -89,7 +91,7 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
                         } else {
                             int pos = bunoList.indexOf(itemController.data);
                             int index = pos + 1;
-                            for (RecyclerItem i : data.invisibleChildren) {
+                            for (BunoItem i : data.invisibleChildren) {
                                 bunoList.add(index, i);
                                 index++;
                             }
@@ -106,6 +108,12 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
             case CHILD: {
                 final ListChildViewHolder itemController = (ListChildViewHolder) holder;
                 itemController.childTv.setText(data.childTitle);
+                itemController.childTv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        listener.onSiteClick(data);
+                    }
+                });
             }
             break;
         }
@@ -126,7 +134,7 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
 
         public TextView headerTv;
         public ImageView toggleIv;
-        public RecyclerItem data;
+        public BunoItem data;
 
         public ListHeaderViewHolder(View itemView) {
             super(itemView);
@@ -149,20 +157,20 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    public static class RecyclerItem {
+    public static class BunoItem {
 
         private int type;
         private String childTitle;
         private String headerTitle;
         private String id;
 
-        public List<RecyclerItem> invisibleChildren;
+        public List<BunoItem> invisibleChildren;
 
-        public RecyclerItem() {
+        public BunoItem() {
 
         }
 
-        public RecyclerItem(int type, String headerTitle, String childTitle, String id) {
+        public BunoItem(int type, String headerTitle, String childTitle, String id) {
             this.type = type;
             this.childTitle = childTitle;
             this.headerTitle = headerTitle;

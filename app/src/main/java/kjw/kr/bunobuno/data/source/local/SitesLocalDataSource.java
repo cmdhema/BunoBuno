@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +47,13 @@ public class SitesLocalDataSource implements SitesDataSource{
         };
 
         Cursor c = db.query("site", projection, null, null, null ,null, null);
-
+        Log.i("SitesLocalDataSource", c.getCount() +" 개");
         if ( c != null && c.getCount() > 0 ) {
             while ( c.moveToNext() ) {
                 String siteTitle = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_TITLE));
                 String sitePassword = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_PASSWORD));
-
-                Site site = new Site(siteTitle, sitePassword);
+                String siteId = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_ID));
+                Site site = new Site(siteTitle, sitePassword, siteId);
                 siteList.add(site);
             }
         }

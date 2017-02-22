@@ -20,12 +20,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        db.execSQL(DBScheme.createUserInfoTable());
-//        db.execSQL(DBScheme.createAccountTable());
-//        db.execSQL(DBScheme.createCustomTable());
-//        db.execSQL(DBScheme.createPhotoTable());
         db.execSQL(DBScheme.SiteEntry.createSiteTable());
-//        db.execSQL(DBScheme.createBankTable());
+        db.execSQL(DBScheme.BankEntry.createBankTable());
     }
 
     @Override

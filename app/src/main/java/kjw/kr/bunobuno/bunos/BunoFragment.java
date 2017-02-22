@@ -1,6 +1,5 @@
 package kjw.kr.bunobuno.bunos;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,19 +9,22 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import kjw.kr.bunobuno.R;
-import kjw.kr.bunobuno.bunos.addedit.AddEditSiteActivity;
+import kjw.kr.bunobuno.bunos.bank.BankContract;
+import kjw.kr.bunobuno.bunos.bank.BankPresenter;
+import kjw.kr.bunobuno.bunos.sites.SitesPresenter;
+import kjw.kr.bunobuno.bunos.sites.addedit.AddEditSiteActivity;
 import kjw.kr.bunobuno.bunos.sites.SitesContract;
+import kjw.kr.bunobuno.data.Bank;
+import kjw.kr.bunobuno.data.BunoConstants;
 import kjw.kr.bunobuno.data.Site;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -31,11 +33,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by kjwook on 2017. 1. 22..
  */
 
-public class BunoFragment extends Fragment implements SitesContract.View {
+public class BunoFragment extends Fragment implements SitesContract.View, BankContract.View {
 
     private BunoExpandableListAdapter mListAdapter;
 
     private SitesContract.Presenter mSitesPresenter;
+    private BankContract.Presenter mBankPresenter;
 
     private RecyclerView recyclerView;
 
@@ -84,14 +87,14 @@ public class BunoFragment extends Fragment implements SitesContract.View {
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-        List<BunoExpandableListAdapter.RecyclerItem> data = new ArrayList<>();
-        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.HEADER, "Fruits", "Apple", ""));
-        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.CHILD, "Fruits", "Pine", ""));
-        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.CHILD, "Fruits", "Straw", ""));
-        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.HEADER, "Car", "Sonata", ""));
-        data.add(new BunoExpandableListAdapter.RecyclerItem(BunoExpandableListAdapter.CHILD, "Car", "Audi", ""));
+        List<BunoExpandableListAdapter.BunoItem> data = new ArrayList<>();
+        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_SITE, "Apple", ""));
+        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_SITE, "Pine", ""));
+        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_SITE, "Straw", ""));
+        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_BANK, "Sonata", ""));
+        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_BANK, "Audi", ""));
 
-        recyclerView.setAdapter(new BunoExpandableListAdapter(data));
+        recyclerView.setAdapter(new BunoExpandableListAdapter(data, mSiteItemListener));
         return root;
     }
 
@@ -108,7 +111,13 @@ public class BunoFragment extends Fragment implements SitesContract.View {
     }
 
     @Override
+    public void setSitesPresenter(SitesPresenter presenter) {
+        mSitesPresenter = checkNotNull(presenter);
+    }
+
+    @Override
     public void showSites(List<Site> sites) {
+        Log.i("BunoFragment", sites.get(0).getTitle());
         //refreshData(sites);
     }
 
@@ -120,7 +129,9 @@ public class BunoFragment extends Fragment implements SitesContract.View {
 
     @Override
     public void showSiteDetailUi(String siteId) {
-
+        Intent intent = new Intent(getContext(), AddEditSiteActivity.class);
+        intent.putExtra(AddEditSiteActivity.EXTRA_SITE_ID, siteId);
+        startActivity(intent);
     }
 
     @Override
@@ -133,13 +144,23 @@ public class BunoFragment extends Fragment implements SitesContract.View {
         showMessage(getString(R.string.successfully_saved_task_message));
     }
 
-    @Override
-    public void setPresenter(@NonNull SitesContract.Presenter presenter) {
-        mSitesPresenter = checkNotNull(presenter);
-    }
-
     private void showMessage(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setBankPresenter(BankPresenter presenter) {
+        mBankPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showBanks(List<Bank> banks) {
+
+    }
+
+    @Override
+    public void showAddEditBankUI() {
+
     }
 
     public interface SiteItemListener {

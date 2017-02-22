@@ -2,10 +2,11 @@ package kjw.kr.bunobuno.bunos.sites;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.List;
 
-import kjw.kr.bunobuno.bunos.addedit.AddEditSiteActivity;
+import kjw.kr.bunobuno.bunos.sites.addedit.AddEditSiteActivity;
 import kjw.kr.bunobuno.data.Site;
 import kjw.kr.bunobuno.data.source.SitesDataSource;
 import kjw.kr.bunobuno.data.source.SitesRepository;
@@ -25,10 +26,10 @@ public class SitesPresenter implements SitesContract.Presenter {
     private boolean mFirstLoad = true;
 
     public SitesPresenter(@NonNull SitesRepository sitesRepository, @NonNull SitesContract.View sitesView) {
-        mSitesRepository = checkNotNull(sitesRepository, "SItesRepository can not be null");
+        mSitesRepository = checkNotNull(sitesRepository, "SitesRepository can not be null");
         mSitesView = checkNotNull(sitesView, "SiteView can not be null");
 
-        mSitesView.setPresenter(this);
+        mSitesView.setSitesPresenter(this);
     }
 
 
@@ -45,7 +46,8 @@ public class SitesPresenter implements SitesContract.Presenter {
 
     @Override
     public void openSiteDetails(@NonNull Site requestedSite) {
-
+        checkNotNull(requestedSite, "requestedSite cannot be null!");
+        mSitesView.showSiteDetailUi(requestedSite.getId());
     }
 
     @Override
@@ -59,15 +61,17 @@ public class SitesPresenter implements SitesContract.Presenter {
     @Override
     public void start() {
 
+        loadSites(false);
     }
 
     private void loadSites(boolean forceUpdate, final boolean showLoadingUI) {
         if ( showLoadingUI )
             mSitesView.setLoadingIndicator(true);
 
-        if ( forceUpdate )
+        if ( forceUpdate ) {
+            Log.i("SitesPresenter", "1");
             mSitesRepository.refreshSites();
-
+        }
         // The network request might be handled in a different thread so make sure Espresso knows
         // that the app is busy until the response is handled.
         EspressoIdlingResource.increment(); // App is busy until further notice
@@ -98,6 +102,7 @@ public class SitesPresenter implements SitesContract.Presenter {
 
     private void processSites(List<Site> sites) {
         if ( sites.isEmpty() ) {
+            Log.i("SitesPresenter", "empty");
         } else {
             mSitesView.showSites(sites);
         }

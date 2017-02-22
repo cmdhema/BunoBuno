@@ -14,20 +14,18 @@ import kjw.kr.bunobuno.data.Site;
 
 public interface SitesContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView {
+        void setSitesPresenter(SitesPresenter presenter);
         void showSites(List<Site> sites);
         void showAddSite();
         void showSiteDetailUi(String siteId);
         void setLoadingIndicator(boolean active);
 
-        void showSuccessfullySavedMessage();
     }
 
     interface Presenter extends BasePresenter {
         void loadSites(boolean forceUpdate);
         void addNewSite();
         void openSiteDetails(@NonNull Site requestedSite);
-
-        void result(int requestCode, int resultCode);
     }
 }

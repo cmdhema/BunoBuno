@@ -1,12 +1,9 @@
-package kjw.kr.bunobuno.bunos.addedit;
+package kjw.kr.bunobuno.bunos.sites.addedit;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import kjw.kr.bunobuno.Injection;
 import kjw.kr.bunobuno.R;
@@ -15,13 +12,13 @@ import kjw.kr.bunobuno.util.ActivityUtils;
 public class AddEditSiteActivity extends AppCompatActivity {
 
     public static final int REQUEST_ADD_TASK = 1;
-
+    public static final String EXTRA_SITE_ID = "SITE_ID";
     private AddEditSitePresenter mAddEditSitePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addedit);
+        setContentView(R.layout.activity_addedit_site);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

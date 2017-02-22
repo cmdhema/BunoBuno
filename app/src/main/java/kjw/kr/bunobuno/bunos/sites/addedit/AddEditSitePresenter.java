@@ -1,9 +1,7 @@
-package kjw.kr.bunobuno.bunos.addedit;
+package kjw.kr.bunobuno.bunos.sites.addedit;
 
 import android.support.annotation.NonNull;
 
-import kjw.kr.bunobuno.BasePresenter;
-import kjw.kr.bunobuno.BaseView;
 import kjw.kr.bunobuno.data.Site;
 import kjw.kr.bunobuno.data.source.SitesDataSource;
 import kjw.kr.bunobuno.data.source.SitesRepository;
@@ -37,6 +35,11 @@ public class AddEditSitePresenter implements AddEditSiteContract.Presenter, Site
         if ( !isNewTask() && mIsDataMissing ) {
             populateSite();
         }
+
+    }
+
+    @Override
+    public void result(int requestCode, int resultCode) {
 
     }
 

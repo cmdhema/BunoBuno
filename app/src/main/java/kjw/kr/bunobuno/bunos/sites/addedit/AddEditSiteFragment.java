@@ -1,4 +1,4 @@
-package kjw.kr.bunobuno.bunos.addedit;
+package kjw.kr.bunobuno.bunos.sites.addedit;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -59,7 +59,7 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_addedit, container, false);
+        View root = inflater.inflate(R.layout.fragment_addedit_site, container, false);
         mTitleTv = (TextView) root.findViewById(R.id.add_site_title);
         mPasswordTv = (TextView) root.findViewById(R.id.add_site_password);
         setHasOptionsMenu(true);
@@ -91,5 +91,10 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
     @Override
     public void setPresenter(@NonNull AddEditSiteContract.Presenter presenter) {
         mAddEditSitePresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showSuccessfullySavedMessage() {
+
     }
 }

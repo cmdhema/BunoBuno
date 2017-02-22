@@ -7,4 +7,7 @@
     <string name="site_password_hint">Enter Site password</string>
     <string name="successfully_saved_task_message">Buno Saved</string>
     <string name="empty_task_message">Title Cannot be empty</string>
+    <string name="title_activity_add_edit_bank">AddEditBank</string>
+    <string name="bank_title_hint">Enter Bank Name</string>
+    <string name="bank_number_hint">Enter Account Number</string>
 </resources>

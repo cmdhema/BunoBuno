@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 
 public class DBScheme {
 
-    public static abstract class SiteEntry  implements BaseColumns {
+    public static abstract class SiteEntry implements BaseColumns {
         public static final String TABLE_NAME = "SITE";
         public static final String ENTRY_TITLE = "Title";
         public static final String ENTRY_PASSWORD = "Password";
@@ -16,6 +16,19 @@ public class DBScheme {
 
         public static String createSiteTable() {
             return String.format("create table %s ( %s text, %s text, %s text PRIMARY KEY );", TABLE_NAME, ENTRY_TITLE, ENTRY_PASSWORD, ENTRY_ID);
+        }
+
+    }
+
+    public static abstract class BankEntry implements BaseColumns {
+        public static final String TABLE_NAME = "BANK";
+        public static final String ENTRY_TITLE = "Title";
+        public static final String ENTRY_BANK = "Bank";
+        public static final String ENTRY_NUMBER = "Number";
+        public static final String ENTRY_ID = "entryId";
+
+        public static String createBankTable() {
+            return String.format("create table %s ( %s text, %s text, %s text, %s number, %s text PRIMARY KEY );", TABLE_NAME, ENTRY_TITLE, ENTRY_NUMBER, ENTRY_BANK, ENTRY_ID);
         }
 
     }
