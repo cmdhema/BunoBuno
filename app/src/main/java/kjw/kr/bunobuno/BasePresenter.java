@@ -6,4 +6,5 @@ package kjw.kr.bunobuno;
 
 public interface BasePresenter {
     void start();
+    void result(int requestCode, int resultCode);
 }
