@@ -21,8 +21,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".bunos.addedit.AddEditSiteActivity"
+            android:name=".bunos.sites.addedit.AddEditSiteActivity"
             android:label="@string/title_activity_site_detail"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".bunos.bank.addedit.AddEditBank"
+            android:label="@string/title_activity_add_edit_bank"
             android:theme="@style/AppTheme"></activity>
     </application>
 
