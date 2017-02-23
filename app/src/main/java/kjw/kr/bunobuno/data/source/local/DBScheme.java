@@ -28,7 +28,7 @@ public class DBScheme {
         public static final String ENTRY_ID = "entryId";
 
         public static String createBankTable() {
-            return String.format("create table %s ( %s text, %s text, %s text, %s number, %s text PRIMARY KEY );", TABLE_NAME, ENTRY_TITLE, ENTRY_NUMBER, ENTRY_BANK, ENTRY_ID);
+            return String.format("create table %s ( %s text, %s text,  %s number, %s text PRIMARY KEY );", TABLE_NAME, ENTRY_TITLE, ENTRY_NUMBER, ENTRY_BANK, ENTRY_ID);
         }
 
     }
