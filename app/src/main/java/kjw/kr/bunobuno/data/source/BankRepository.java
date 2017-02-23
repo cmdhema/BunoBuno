@@ -18,6 +18,16 @@ public class BankRepository implements BankDataSource {
     private static BankRepository INSTANCE = null;
     private BankDataSource bankLocalDataSource;
 
+    private BankRepository(@NonNull BankDataSource bankLocalDataSource) {
+        this.bankLocalDataSource = checkNotNull(bankLocalDataSource);
+    }
+
+    public static BankRepository getInstance(BankDataSource bankLocalDataSource) {
+        if ( INSTANCE == null )
+            INSTANCE = new BankRepository(bankLocalDataSource);
+        return INSTANCE;
+    }
+
     @Override
     public void getBanks(@NonNull final LoadBanksCallback callback) {
 
@@ -35,7 +45,7 @@ public class BankRepository implements BankDataSource {
     }
 
     @Override
-    public void getBank(@NonNull GetBankCallback callback) {
+    public void getBank(@NonNull String bankId, @NonNull GetBankCallback callback) {
 
     }
 
@@ -47,16 +57,6 @@ public class BankRepository implements BankDataSource {
     @Override
     public void deleteBank(@NonNull String bankId) {
 
-    }
-
-    private BankRepository(@NonNull BankDataSource bankLocalDataSource) {
-        this.bankLocalDataSource = checkNotNull(bankLocalDataSource);
-    }
-
-    public static BankRepository getInstance(BankDataSource bankLocalDataSource) {
-        if ( INSTANCE == null )
-            INSTANCE = new BankRepository(bankLocalDataSource);
-        return INSTANCE;
     }
 
     public static void destroyInstance() {

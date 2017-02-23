@@ -23,7 +23,7 @@ public interface BankDataSource {
     }
 
     void getBanks(@NonNull LoadBanksCallback callback);
-    void getBank(@NonNull GetBankCallback callback);
+    void getBank(@NonNull String bankId, @NonNull GetBankCallback callback);
     void saveBank(@NonNull Bank bank);
     void deleteBank(@NonNull String bankId);
 }

@@ -2,6 +2,8 @@ package kjw.kr.bunobuno.data;
 
 import android.support.annotation.NonNull;
 
+import com.google.common.base.Strings;
+
 import java.util.UUID;
 
 /**
@@ -30,5 +32,10 @@ public class Bank extends Buno {
     public int getBank() {
         return bank;
     }
+
+    public boolean isEmpty() {
+        return Strings.isNullOrEmpty(getTitle()) && Strings.isNullOrEmpty(getNumber());
+    }
+
 
 }

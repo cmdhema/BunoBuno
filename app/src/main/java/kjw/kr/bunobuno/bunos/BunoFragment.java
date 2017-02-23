@@ -3,9 +3,7 @@ package kjw.kr.bunobuno.bunos;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +23,7 @@ import kjw.kr.bunobuno.Fab;
 import kjw.kr.bunobuno.R;
 import kjw.kr.bunobuno.bunos.bank.BankContract;
 import kjw.kr.bunobuno.bunos.bank.BankPresenter;
+import kjw.kr.bunobuno.bunos.bank.addedit.AddEditBankActivity;
 import kjw.kr.bunobuno.bunos.sites.SitesPresenter;
 import kjw.kr.bunobuno.bunos.sites.addedit.AddEditSiteActivity;
 import kjw.kr.bunobuno.bunos.sites.SitesContract;
@@ -152,7 +151,7 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     @Override
     public void showAddSite() {
         Intent intent = new Intent(getContext(), AddEditSiteActivity.class);
-        startActivityForResult(intent, AddEditSiteActivity.REQUEST_ADD_TASK);
+        startActivityForResult(intent, AddEditSiteActivity.REQUEST_ADD_SITE);
     }
 
     @Override
@@ -193,7 +192,8 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
 
     @Override
     public void showAddEditBankUI() {
-
+        Intent intent = new Intent(getContext(), AddEditBankActivity.class);
+        startActivityForResult(intent, AddEditBankActivity.REQUEST_ADD_BANK);
     }
 
     private int getStatusBarColor() {

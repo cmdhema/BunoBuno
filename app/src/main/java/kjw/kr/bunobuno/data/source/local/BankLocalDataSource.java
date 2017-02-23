@@ -63,7 +63,7 @@ public class BankLocalDataSource implements BankDataSource{
     }
 
     @Override
-    public void getBank(@NonNull GetBankCallback callback) {
+    public void getBank(@NonNull String bankId, @NonNull GetBankCallback callback) {
 
     }
 

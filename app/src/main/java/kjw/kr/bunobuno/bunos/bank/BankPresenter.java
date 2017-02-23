@@ -29,7 +29,7 @@ public class BankPresenter implements BankContract.Presenter {
 
     @Override
     public void addNewBank() {
-
+        bankView.showAddEditBankUI();
     }
 
     @Override
