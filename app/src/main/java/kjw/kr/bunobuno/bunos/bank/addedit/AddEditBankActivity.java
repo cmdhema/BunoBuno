@@ -9,7 +9,7 @@ import android.view.View;
 
 import kjw.kr.bunobuno.R;
 
-public class AddEditBank extends AppCompatActivity {
+public class AddEditBankActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,4 +28,9 @@ public class AddEditBank extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

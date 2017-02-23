@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="kjw.kr.bunobuno.bunos.bank.addedit.AddEditBank">
+    tools:context="kjw.kr.bunobuno.bunos.bank.addedit.AddEditBankActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

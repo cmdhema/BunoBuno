@@ -1,6 +1,7 @@
 package kjw.kr.bunobuno.bunos;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,9 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
+import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import kjw.kr.bunobuno.Fab;
 import kjw.kr.bunobuno.R;
 import kjw.kr.bunobuno.bunos.bank.BankContract;
 import kjw.kr.bunobuno.bunos.bank.BankPresenter;
@@ -33,7 +38,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by kjwook on 2017. 1. 22..
  */
 
-public class BunoFragment extends Fragment implements SitesContract.View, BankContract.View {
+public class BunoFragment extends Fragment implements SitesContract.View, BankContract.View, View.OnClickListener {
 
     private BunoExpandableListAdapter mListAdapter;
 
@@ -41,7 +46,9 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     private BankContract.Presenter mBankPresenter;
 
     private RecyclerView recyclerView;
+    private MaterialSheetFab materialSheetFab;
 
+    private int statusBarColor;
 
     public BunoFragment() {
 
@@ -76,14 +83,35 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_buno);
-        fab.setImageResource(R.drawable.ic_add);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Fab fab = (Fab) getActivity().findViewById(R.id.fab_add_buno);
+        View sheetView = getActivity().findViewById(R.id.fab_sheet);
+        View overlay = getActivity().findViewById(R.id.overlay);
+        int sheetColor = getResources().getColor(R.color.background_card);
+        int fabColor = getResources().getColor(R.color.theme_accent);
+
+        getActivity().findViewById(R.id.fab_sheet_item_site).setOnClickListener(this);
+        getActivity().findViewById(R.id.fab_sheet_item_bank).setOnClickListener(this);
+
+        // Create material sheet FAB
+        materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay, sheetColor, fabColor);
+
+        // Set material sheet event listener
+        materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
             @Override
-            public void onClick(View view) {
-                mSitesPresenter.addNewSite();
+            public void onShowSheet() {
+                // Save current status bar color
+                statusBarColor = getStatusBarColor();
+                // Set darker status bar color to match the dim overlay
+                setStatusBarColor(getResources().getColor(R.color.theme_primary_dark2));
+            }
+
+            @Override
+            public void onHideSheet() {
+                // Restore status bar color
+                setStatusBarColor(statusBarColor);
             }
         });
+
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -140,6 +168,11 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     }
 
     @Override
+    public void setPresenter(Object presenter) {
+
+    }
+
+    @Override
     public void showSuccessfullySavedMessage() {
         showMessage(getString(R.string.successfully_saved_task_message));
     }
@@ -161,6 +194,28 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     @Override
     public void showAddEditBankUI() {
 
+    }
+
+    private int getStatusBarColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getActivity().getWindow().getStatusBarColor();
+        }
+        return 0;
+    }
+
+    private void setStatusBarColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().setStatusBarColor(color);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if ( view.getId() == R.id.fab_sheet_item_bank ) {
+            mBankPresenter.addNewBank();
+        } else if ( view.getId() == R.id.fab_sheet_item_site ) {
+            mSitesPresenter.addNewSite();
+        }
     }
 
     public interface SiteItemListener {

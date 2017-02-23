@@ -25,7 +25,7 @@
             android:label="@string/title_activity_site_detail"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".bunos.bank.addedit.AddEditBank"
+            android:name=".bunos.bank.addedit.AddEditBankActivity"
             android:label="@string/title_activity_add_edit_bank"
             android:theme="@style/AppTheme"></activity>
     </application>

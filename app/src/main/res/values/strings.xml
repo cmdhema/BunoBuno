@@ -10,4 +10,6 @@
     <string name="title_activity_add_edit_bank">AddEditBank</string>
     <string name="bank_title_hint">Enter Bank Name</string>
     <string name="bank_number_hint">Enter Account Number</string>
+    <string name="site">Add Site</string>
+    <string name="bank">Add Bank</string>
 </resources>

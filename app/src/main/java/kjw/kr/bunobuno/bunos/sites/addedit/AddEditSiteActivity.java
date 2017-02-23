@@ -50,4 +50,10 @@ public class AddEditSiteActivity extends AppCompatActivity {
         addEditSiteFragment.setPresenter(mAddEditSitePresenter);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 }
