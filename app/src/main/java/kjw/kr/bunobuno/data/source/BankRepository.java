@@ -51,7 +51,8 @@ public class BankRepository implements BankDataSource {
 
     @Override
     public void saveBank(@NonNull Bank bank) {
-
+        checkNotNull(bank);
+        bankLocalDataSource.saveBank(bank);
     }
 
     @Override

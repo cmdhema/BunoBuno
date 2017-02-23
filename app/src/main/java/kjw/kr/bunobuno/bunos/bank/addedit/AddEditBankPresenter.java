@@ -1,6 +1,7 @@
 package kjw.kr.bunobuno.bunos.bank.addedit;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import kjw.kr.bunobuno.data.Bank;
 import kjw.kr.bunobuno.data.source.BankDataSource;
@@ -37,6 +38,7 @@ public class AddEditBankPresenter implements AddEditBankContract.Presenter, Bank
 
     @Override
     public void saveBank(String title, String number, int bank) {
+        Log.i("AddBankPresenter", "3");
         if ( isNewBank() )
             createBank(title, number, bank);
         else
@@ -57,6 +59,7 @@ public class AddEditBankPresenter implements AddEditBankContract.Presenter, Bank
         Bank b = new Bank(title, number, bank);
 
         if ( !b.isEmpty() ){
+            Log.i("AddBankPresenter", "4");
             bankRepository.saveBank(b);
             addEditBankView.showBankList();
         }

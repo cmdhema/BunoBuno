@@ -1,12 +1,15 @@
 package kjw.kr.bunobuno.bunos.bank.addedit;
 
+import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -52,7 +55,9 @@ public class AddEditBankFragment extends Fragment implements  AddEditBankContrac
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("AddBankFragment", "1");
                 addEditBankPresenter.saveBank(mTitleTv.getText().toString(), mNumberTv.getText().toString(), bankSpinner.getSelectedItemPosition());
+                Log.i("AddBankFragment", "2");
             }
         });
     }
@@ -65,6 +70,10 @@ public class AddEditBankFragment extends Fragment implements  AddEditBankContrac
         mTitleTv = (EditText) root.findViewById(R.id.add_bank_title);
         mNumberTv = (EditText) root.findViewById(R.id.add_bank_number);
         bankSpinner = (Spinner) root.findViewById(R.id.add_bank_bank);
+
+        String[] banks = getResources().getStringArray(R.array.banks);
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, banks);
+        bankSpinner.setAdapter(stringArrayAdapter);
         setHasOptionsMenu(true);
 
         return root;
@@ -72,7 +81,8 @@ public class AddEditBankFragment extends Fragment implements  AddEditBankContrac
 
     @Override
     public void showBankList() {
-
+        getActivity().setResult(Activity.RESULT_OK);
+        getActivity().finish();
     }
 
     @Override

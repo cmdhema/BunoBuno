@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,7 @@ public class BankLocalDataSource implements BankDataSource{
 
     @Override
     public void saveBank(@NonNull Bank bank) {
+        Log.i("BankLocalDataSource", "SaveBank!!");
         checkNotNull(bank);
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -79,7 +81,7 @@ public class BankLocalDataSource implements BankDataSource{
         cv.put(DBScheme.BankEntry.ENTRY_BANK, bank.getBank());
 
         db.insert(DBScheme.BankEntry.TABLE_NAME, null, cv);
-
+        Log.i("BankLocalDataSource", "SaveBank");
         db.close();
     }
 
