@@ -32,7 +32,7 @@ public class AddEditSitePresenter implements AddEditSiteContract.Presenter, Site
 
     @Override
     public void start() {
-        if ( !isNewTask() && mIsDataMissing ) {
+        if ( !isNewSite() && mIsDataMissing ) {
             populateSite();
         }
 
@@ -46,7 +46,7 @@ public class AddEditSitePresenter implements AddEditSiteContract.Presenter, Site
     @Override
     public void populateSite() {
 
-        if (isNewTask()) {
+        if (isNewSite()) {
             throw new RuntimeException("populateTask() was called but task is new.");
         }
 
@@ -55,15 +55,15 @@ public class AddEditSitePresenter implements AddEditSiteContract.Presenter, Site
 
     @Override
     public void saveSite(String title, String password) {
-        if ( isNewTask() )
-            createTask(title, password);
+        if ( isNewSite() )
+            createSite(title, password);
         else
             updateTask(title, password);
     }
 
     private void updateTask(String title, String password) {
 
-        if (isNewTask()) {
+        if (isNewSite()) {
             throw new RuntimeException("updateTask() was called but task is new.");
         }
 
@@ -73,7 +73,7 @@ public class AddEditSitePresenter implements AddEditSiteContract.Presenter, Site
 
     }
 
-    private void createTask(String title, String password) {
+    private void createSite(String title, String password) {
 
         Site site = new Site(title, password);
         if ( site.isEmpty() )
@@ -87,15 +87,15 @@ public class AddEditSitePresenter implements AddEditSiteContract.Presenter, Site
 
     @Override
     public void onSiteLoaded(Site site) {
-
+        mAddSiteView.setTitle(site.getTitle());
+        mAddSiteView.setPassword(site.getPassword());
     }
 
     @Override
     public void onDataNotAvailable() {
-
     }
 
-    private boolean isNewTask() {
+    private boolean isNewSite() {
         return mSiteId == null;
     }
 }

@@ -11,7 +11,7 @@ import kjw.kr.bunobuno.util.ActivityUtils;
 
 public class AddEditSiteActivity extends AppCompatActivity {
 
-    public static final int REQUEST_ADD_TASK = 1;
+    public static final int REQUEST_ADD_SITE = 1;
     public static final String EXTRA_SITE_ID = "SITE_ID";
     private AddEditSitePresenter mAddEditSitePresenter;
 

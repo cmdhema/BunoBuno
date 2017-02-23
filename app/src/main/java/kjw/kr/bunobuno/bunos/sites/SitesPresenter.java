@@ -53,7 +53,7 @@ public class SitesPresenter implements SitesContract.Presenter {
     @Override
     public void result(int requestCode, int resultCode) {
         // If a task was successfully added, show snackbar
-        if (AddEditSiteActivity.REQUEST_ADD_TASK == requestCode && Activity.RESULT_OK == resultCode) {
+        if (AddEditSiteActivity.REQUEST_ADD_SITE == requestCode && Activity.RESULT_OK == resultCode) {
             mSitesView.showSuccessfullySavedMessage();
         }
     }

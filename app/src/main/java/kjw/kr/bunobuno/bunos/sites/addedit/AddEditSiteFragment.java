@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import kjw.kr.bunobuno.R;
@@ -23,8 +24,8 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
 
     public static final String ARGUMENT_EDIT_SITE_ID = "EDIT_SITE_ID";
 
-    private TextView mTitleTv;
-    private TextView mPasswordTv;
+    private EditText mTitleTv;
+    private EditText mPasswordTv;
 
     private AddEditSiteContract.Presenter mAddEditSitePresenter;
 
@@ -46,7 +47,7 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_task_done);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_site_done);
         fab.setImageResource(R.drawable.ic_done);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +61,8 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_addedit_site, container, false);
-        mTitleTv = (TextView) root.findViewById(R.id.add_site_title);
-        mPasswordTv = (TextView) root.findViewById(R.id.add_site_password);
+        mTitleTv = (EditText) root.findViewById(R.id.add_site_title);
+        mPasswordTv = (EditText) root.findViewById(R.id.add_site_password);
         setHasOptionsMenu(true);
         return root;
     }
