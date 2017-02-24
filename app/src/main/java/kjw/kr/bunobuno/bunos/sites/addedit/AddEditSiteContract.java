@@ -13,11 +13,12 @@ public interface AddEditSiteContract {
         void showSitesList();
         void showEmptySiteError();
         void setTitle(String title);
+        void setSiteId(String id);
         void setPassword(String password);
     }
 
     interface Presenter extends BasePresenter {
         void populateSite();
-        void saveSite(String title, String password);
+        void saveSite(String title, String id, String password);
     }
 }

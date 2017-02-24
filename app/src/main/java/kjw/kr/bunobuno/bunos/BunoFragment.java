@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.util.KakaoParameterException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,10 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     private int statusBarColor;
 
     private List<BunoExpandableListAdapter.BunoItem> bunoItemList;
+    private List<Site> siteList;
+    private List<Bank> bankList;
+
+    private KakaoLink kakaoLink;
 
     public BunoFragment() {
 
@@ -69,6 +75,21 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
             else
                 mBankPresenter.openBankDetail(bunoItem.getId());
         }
+
+        @Override
+        public void onKakaoClick(BunoExpandableListAdapter.BunoItem bunoItem) {
+            if (bunoItem.getHeaderTitle().equals(BunoConstants.TITLE_SITE)) {
+                for ( Site site : siteList ) {
+                    if ( site.getId().equals(bunoItem.getId() )) {
+//                        String msg = "[버노버노 앱에서 보낸 메세지 입니다.] \n" +
+//                                "아이디는 " + site.get
+                    }
+                }
+            }
+            else {
+
+            }
+        }
     };
 
     @Override
@@ -81,7 +102,11 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        try {
+            kakaoLink = KakaoLink.getKakaoLink(getActivity());
+        } catch (KakaoParameterException e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -147,6 +172,7 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     @Override
     public void showSites(List<Site> sites) {
         bunoItemList.clear();
+        siteList = sites;
         Log.i("BunoFragment", sites.get(0).getTitle());
         bunoItemList.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_SITE, "", ""));
         for ( Site site : sites) {
@@ -193,8 +219,9 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
 
     @Override
     public void showBanks(List<Bank> banks) {
+        bankList = banks;
         Log.i("BunoFragment", banks.get(0).getTitle());
-        bunoItemList.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_SITE, "", ""));
+        bunoItemList.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_BANK, "", ""));
         for ( Bank bank : banks) {
             bunoItemList.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_BANK, bank.getTitle(), bank.getId()));
         }
@@ -238,6 +265,7 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     }
 
     public interface BunoItemListener {
-        void onSiteClick(BunoExpandableListAdapter.BunoItem clickedSite);
+        void onSiteClick(BunoExpandableListAdapter.BunoItem clickedItem);
+        void onKakaoClick(BunoExpandableListAdapter.BunoItem clickedItem);
     }
 }

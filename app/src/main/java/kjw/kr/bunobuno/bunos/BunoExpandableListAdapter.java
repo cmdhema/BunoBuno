@@ -114,6 +114,12 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
                         listener.onSiteClick(data);
                     }
                 });
+                itemController.kakaoIv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
             }
             break;
         }

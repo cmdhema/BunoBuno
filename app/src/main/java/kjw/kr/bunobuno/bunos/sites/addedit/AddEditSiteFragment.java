@@ -26,6 +26,7 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
 
     private EditText mTitleTv;
     private EditText mPasswordTv;
+    private EditText mSiteId;
 
     private AddEditSiteContract.Presenter mAddEditSitePresenter;
 
@@ -52,7 +53,7 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAddEditSitePresenter.saveSite(mTitleTv.getText().toString(), mPasswordTv.getText().toString());
+                mAddEditSitePresenter.saveSite(mTitleTv.getText().toString(), mSiteId.getText().toString(), mPasswordTv.getText().toString());
             }
         });
     }
@@ -63,6 +64,7 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
         View root = inflater.inflate(R.layout.fragment_addedit_site, container, false);
         mTitleTv = (EditText) root.findViewById(R.id.add_site_title);
         mPasswordTv = (EditText) root.findViewById(R.id.add_site_password);
+        mSiteId = (EditText) root.findViewById(R.id.add_site_id);
         setHasOptionsMenu(true);
         return root;
     }
@@ -82,6 +84,11 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
     @Override
     public void setTitle(String title) {
         mTitleTv.setText(title);
+    }
+
+    @Override
+    public void setSiteId(String id) {
+        mSiteId.setText(id);
     }
 
     @Override

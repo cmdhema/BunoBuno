@@ -54,28 +54,28 @@ public class AddEditSitePresenter implements AddEditSiteContract.Presenter, Site
     }
 
     @Override
-    public void saveSite(String title, String password) {
+    public void saveSite(String title, String id, String password) {
         if ( isNewSite() )
-            createSite(title, password);
+            createSite(title, id, password);
         else
-            updateTask(title, password);
+            updateTask(title, id, password);
     }
 
-    private void updateTask(String title, String password) {
+    private void updateTask(String title, String id, String password) {
 
         if (isNewSite()) {
             throw new RuntimeException("updateTask() was called but task is new.");
         }
 
-        Site site = new Site(title, password, mSiteId);
+        Site site = new Site(title, id, password, mSiteId);
         mSiteRepository.saveSite(site);
         mAddSiteView.showSitesList();
 
     }
 
-    private void createSite(String title, String password) {
+    private void createSite(String title, String id, String password) {
 
-        Site site = new Site(title, password);
+        Site site = new Site(title, id, password);
         if ( site.isEmpty() )
             mAddSiteView.showEmptySiteError();
         else {
@@ -89,6 +89,7 @@ public class AddEditSitePresenter implements AddEditSiteContract.Presenter, Site
     public void onSiteLoaded(Site site) {
         mAddSiteView.setTitle(site.getTitle());
         mAddSiteView.setPassword(site.getPassword());
+        mAddSiteView.setSiteId(site.getSiteId());
     }
 
     @Override

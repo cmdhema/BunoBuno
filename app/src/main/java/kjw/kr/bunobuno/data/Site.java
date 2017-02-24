@@ -16,23 +16,22 @@ public final class Site extends Buno {
 
     @Nullable
     private final String mPassword;
+    @Nullable
+    private final String mSiteId;
 
     private final boolean mCompleted;
 
-    public Site(@Nullable String title, @Nullable String password) {
-        this(title, password, UUID.randomUUID().toString(), false);
+    public Site(@Nullable String title, @Nullable String id, @Nullable String password) {
+        this(title, id, password, UUID.randomUUID().toString(), false);
     }
 
-    public Site(@Nullable String title, @Nullable String password, @NonNull String id) {
-        this(title, password, id, false);
+    public Site(@Nullable String title, @Nullable String id, @Nullable String password, @NonNull String entryId) {
+        this(title, id, password, entryId, false);
     }
 
-    public Site(@Nullable String title, @Nullable String description, boolean completed) {
-        this(title, description, UUID.randomUUID().toString(), completed);
-    }
-
-    public Site(@Nullable String title, @Nullable String password, @NonNull String id, boolean completed) {
+    public Site(@Nullable String title, @Nullable String siteId, @Nullable String password, @NonNull String id, boolean completed) {
         super(title, id);
+        mSiteId = siteId;
         mPassword = password;
         mCompleted = completed;
     }
@@ -40,6 +39,11 @@ public final class Site extends Buno {
     @Nullable
     public String getPassword() {
         return mPassword;
+    }
+
+    @Nullable
+    public String getSiteId() {
+        return mSiteId;
     }
 
     public boolean isEmpty() {

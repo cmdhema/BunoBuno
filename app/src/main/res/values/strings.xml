@@ -12,4 +12,8 @@
     <string name="bank_number_hint">Enter Account Number</string>
     <string name="site">Add Site</string>
     <string name="bank">Add Bank</string>
+    <string name="kakao_app_key">263484e88f1a96c188baf54682358732</string>
+    <string name="kakao_scheme">kakao263484e88f1a96c188baf54682358732</string>
+    <string name="kakaolink_host">kakaolink</string>
+    <string name="site_id_hint">Enter Site Id</string>
 </resources>

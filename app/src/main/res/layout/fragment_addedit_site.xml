@@ -21,6 +21,14 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:hint="@string/site_id_hint"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:id="@+id/add_site_id"
+            android:layout_height="wrap_content" />
+
+        <EditText
             android:layout_width="match_parent"
             android:id="@+id/add_site_password"
             android:hint="@string/site_password_hint"

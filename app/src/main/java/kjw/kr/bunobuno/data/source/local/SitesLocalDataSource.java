@@ -43,6 +43,7 @@ public class SitesLocalDataSource implements SitesDataSource{
         String[] projection = {
                 DBScheme.SiteEntry.ENTRY_ID,
                 DBScheme.SiteEntry.ENTRY_TITLE,
+                DBScheme.SiteEntry.ENTRY_SITE_ID,
                 DBScheme.SiteEntry.ENTRY_PASSWORD
         };
 
@@ -51,9 +52,10 @@ public class SitesLocalDataSource implements SitesDataSource{
         if ( c != null && c.getCount() > 0 ) {
             while ( c.moveToNext() ) {
                 String siteTitle = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_TITLE));
+                String siteId = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_SITE_ID));
                 String sitePassword = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_PASSWORD));
-                String siteId = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_ID));
-                Site site = new Site(siteTitle, sitePassword, siteId);
+                String siteEntryId = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_ID));
+                Site site = new Site(siteTitle, siteId, sitePassword, siteEntryId);
                 siteList.add(site);
             }
         }
@@ -75,6 +77,7 @@ public class SitesLocalDataSource implements SitesDataSource{
         String[] projection = {
                 DBScheme.SiteEntry.ENTRY_ID,
                 DBScheme.SiteEntry.ENTRY_TITLE,
+                DBScheme.SiteEntry.ENTRY_SITE_ID,
                 DBScheme.SiteEntry.ENTRY_PASSWORD
         };
 
@@ -90,9 +93,10 @@ public class SitesLocalDataSource implements SitesDataSource{
 
             String itemId = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_ID));
             String itemTitle = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_TITLE));
+            String itemSiteId = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_SITE_ID));
             String itemPassword = c.getString(c.getColumnIndexOrThrow(DBScheme.SiteEntry.ENTRY_PASSWORD));
 
-            site = new Site(itemTitle, itemPassword, itemId);
+            site = new Site(itemTitle, itemSiteId, itemPassword, itemId);
 
             db.close();
 
@@ -112,7 +116,7 @@ public class SitesLocalDataSource implements SitesDataSource{
         cv.put(DBScheme.SiteEntry.ENTRY_ID, site.getId());
         cv.put(DBScheme.SiteEntry.ENTRY_TITLE, site.getTitle());
         cv.put(DBScheme.SiteEntry.ENTRY_PASSWORD, site.getPassword());
-
+        cv.put(DBScheme.SiteEntry.ENTRY_SITE_ID, site.getSiteId());
         db.insert(DBScheme.SiteEntry.TABLE_NAME, null, cv);
 
         db.close();

@@ -157,16 +157,6 @@ public class SitesRepository implements SitesDataSource {
 
     @Override
     public void completeSite(@NonNull Site site) {
-        checkNotNull(site);
-        mSitesLocalDataSource.completeSite(site);
-        mSitesRemoteDataSource.completeSite(site);
-
-        Site completedSite = new Site(site.getTitle(), site.getPassword(), site.getId(), true);
-
-        if ( mCachedSites == null )
-            mCachedSites = new LinkedHashMap<>();
-
-        mCachedSites.put(site.getId(), completedSite);
 
     }
 
