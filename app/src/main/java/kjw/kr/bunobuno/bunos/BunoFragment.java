@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
 import com.kakao.util.KakaoParameterException;
 
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
 
     private KakaoLink kakaoLink;
 
+    private String[] banks;
+
     public BunoFragment() {
 
     }
@@ -69,7 +72,6 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     BunoItemListener mBunoItemListener = new BunoItemListener() {
         @Override
         public void onSiteClick(BunoExpandableListAdapter.BunoItem bunoItem) {
-            Toast.makeText(getActivity(), bunoItem.getHeaderTitle() +", " + bunoItem.getChildTitle(), 0).show();
             if (bunoItem.getHeaderTitle().equals(BunoConstants.TITLE_SITE))
                 mSitesPresenter.openSiteDetails(bunoItem.getId());
             else
@@ -78,16 +80,39 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
 
         @Override
         public void onKakaoClick(BunoExpandableListAdapter.BunoItem bunoItem) {
+            final KakaoTalkLinkMessageBuilder kakaoTalkLinkMessageBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+
             if (bunoItem.getHeaderTitle().equals(BunoConstants.TITLE_SITE)) {
                 for ( Site site : siteList ) {
                     if ( site.getId().equals(bunoItem.getId() )) {
-//                        String msg = "[버노버노 앱에서 보낸 메세지 입니다.] \n" +
-//                                "아이디는 " + site.get
+                        String msg = "[버노버노 앱에서 보낸 메세지 입니다.] \n" +
+                                site.getTitle()+"의 아이디는 " + site.getSiteId() + ",\n " +
+                                "비밀번호는 " + site.getPassword() + "입니다";
+//                        Toast.makeText(getActivity(), msg, 0).show();
+                        try {
+                            kakaoTalkLinkMessageBuilder.addText(msg);
+                        } catch (KakaoParameterException e) {
+                            e.printStackTrace();
+                        }
+                        break;
                     }
                 }
             }
             else {
-
+                for ( Bank bank : bankList ) {
+                    if ( bank.getId().equals(bunoItem.getId() )) {
+                        String msg = "[버노버노 앱에서 보낸 메세지 입니다.] \n" +
+                                "은행은 " + banks[bank.getBank()] + ",\n " +
+                                "계좌번호는 " + bank.getNumber() + "입니다";
+//                        Toast.makeText(getActivity(), msg, 0).show();
+                        try {
+                            kakaoTalkLinkMessageBuilder.addText(msg);
+                        } catch (KakaoParameterException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                }
             }
         }
     };
@@ -102,6 +127,7 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        banks = getResources().getStringArray(R.array.banks);
         try {
             kakaoLink = KakaoLink.getKakaoLink(getActivity());
         } catch (KakaoParameterException e) {
