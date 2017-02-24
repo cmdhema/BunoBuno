@@ -22,7 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class AddEditSiteFragment extends Fragment implements AddEditSiteContract.View{
 
-    public static final String ARGUMENT_EDIT_SITE_ID = "EDIT_SITE_ID";
+    public static final String ARGUMENT_EDIT_SITE_ID = "SITE_ID";
 
     private EditText mTitleTv;
     private EditText mPasswordTv;
@@ -81,12 +81,12 @@ public class AddEditSiteFragment extends Fragment implements AddEditSiteContract
 
     @Override
     public void setTitle(String title) {
-
+        mTitleTv.setText(title);
     }
 
     @Override
     public void setPassword(String password) {
-
+        mPasswordTv.setText(password);
     }
 
     @Override

@@ -23,7 +23,7 @@ import kjw.kr.bunobuno.bunos.sites.addedit.AddEditSiteFragment;
  */
 public class AddEditBankFragment extends Fragment implements  AddEditBankContract.View {
 
-    public static final String ARGUMENT_EDIT_BANK_ID = "EDIT_BANK_ID";
+    public static final String ARGUMENT_EDIT_BANK_ID = "BANK_ID";
 
     private AddEditBankContract.Presenter addEditBankPresenter;
 

@@ -45,9 +45,9 @@ public class SitesPresenter implements SitesContract.Presenter {
     }
 
     @Override
-    public void openSiteDetails(@NonNull Site requestedSite) {
+    public void openSiteDetails(@NonNull String requestedSite) {
         checkNotNull(requestedSite, "requestedSite cannot be null!");
-        mSitesView.showSiteDetailUi(requestedSite.getId());
+        mSitesView.showSiteDetailUi(requestedSite);
     }
 
     @Override

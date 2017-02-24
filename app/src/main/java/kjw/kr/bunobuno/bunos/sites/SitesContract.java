@@ -26,6 +26,6 @@ public interface SitesContract {
     interface Presenter extends BasePresenter {
         void loadSites(boolean forceUpdate);
         void addNewSite();
-        void openSiteDetails(@NonNull Site requestedSite);
+        void openSiteDetails(@NonNull String requestedSite);
     }
 }

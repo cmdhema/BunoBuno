@@ -2,6 +2,10 @@ package kjw.kr.bunobuno.bunos.bank;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
+import kjw.kr.bunobuno.data.Bank;
+import kjw.kr.bunobuno.data.source.BankDataSource;
 import kjw.kr.bunobuno.data.source.BankRepository;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -24,7 +28,7 @@ public class BankPresenter implements BankContract.Presenter {
 
     @Override
     public void loadBanks(boolean forceUpdate) {
-
+        loadBanks();
     }
 
     @Override
@@ -33,10 +37,30 @@ public class BankPresenter implements BankContract.Presenter {
     }
 
     @Override
-    public void start() {
-
+    public void openBankDetail(@NonNull String bankId) {
+        bankView.showDetailBankUI(bankId);
     }
 
+    @Override
+    public void start() {
+        loadBanks();
+    }
+
+    private void loadBanks() {
+        bankRepository.getBanks(new BankDataSource.LoadBanksCallback() {
+            @Override
+            public void onBanksLoaded(List<Bank> banks) {
+
+                if ( !banks.isEmpty())
+                    bankView.showBanks(banks);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+    }
     @Override
     public void result(int requestCode, int resultCode) {
 

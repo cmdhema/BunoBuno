@@ -12,13 +12,7 @@ import java.util.UUID;
  * Created by kjwook on 2017. 1. 20..
  */
 
-public final class Site {
-
-    @NonNull
-    private final String mId;
-
-    @Nullable
-    private final String mTitle;
+public final class Site extends Buno {
 
     @Nullable
     private final String mPassword;
@@ -38,29 +32,9 @@ public final class Site {
     }
 
     public Site(@Nullable String title, @Nullable String password, @NonNull String id, boolean completed) {
-        mId = id;
-        mTitle = title;
+        super(title, id);
         mPassword = password;
         mCompleted = completed;
-    }
-
-    @NonNull
-    public String getId() {
-        return mId;
-    }
-
-    @Nullable
-    public String getTitle() {
-        return mTitle;
-    }
-
-    @Nullable
-    public String getTitleForList() {
-        if (!Strings.isNullOrEmpty(mTitle)) {
-            return mTitle;
-        } else {
-            return mPassword;
-        }
     }
 
     @Nullable
@@ -68,35 +42,8 @@ public final class Site {
         return mPassword;
     }
 
-    public boolean isCompleted() {
-        return mCompleted;
-    }
-
-    public boolean isActive() {
-        return !mCompleted;
-    }
-
     public boolean isEmpty() {
-        return Strings.isNullOrEmpty(mTitle) && Strings.isNullOrEmpty(mPassword);
+        return Strings.isNullOrEmpty(getTitle()) && Strings.isNullOrEmpty(mPassword);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if ( this == obj )
-            return true;
-        if ( obj == null || getClass() != obj.getClass())
-            return false;
-        Site site = (Site) obj;
-        return Objects.equal(mId, site.mId) && Objects.equal(mTitle, site.mTitle) && Objects.equal(mPassword, site.mPassword);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(mId, mTitle, mPassword);
-    }
-
-    @Override
-    public String toString() {
-        return "Task with title " + mTitle;
-    }
 }

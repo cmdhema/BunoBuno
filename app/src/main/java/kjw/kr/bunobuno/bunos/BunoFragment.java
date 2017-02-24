@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
@@ -49,6 +50,8 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
 
     private int statusBarColor;
 
+    private List<BunoExpandableListAdapter.BunoItem> bunoItemList;
+
     public BunoFragment() {
 
     }
@@ -57,10 +60,14 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
         return new BunoFragment();
     }
 
-    SiteItemListener mSiteItemListener = new SiteItemListener() {
+    BunoItemListener mBunoItemListener = new BunoItemListener() {
         @Override
-        public void onSiteClick(Site clickedSite) {
-            mSitesPresenter.openSiteDetails(clickedSite);
+        public void onSiteClick(BunoExpandableListAdapter.BunoItem bunoItem) {
+            Toast.makeText(getActivity(), bunoItem.getHeaderTitle() +", " + bunoItem.getChildTitle(), 0).show();
+            if (bunoItem.getHeaderTitle().equals(BunoConstants.TITLE_SITE))
+                mSitesPresenter.openSiteDetails(bunoItem.getId());
+            else
+                mBankPresenter.openBankDetail(bunoItem.getId());
         }
     };
 
@@ -68,6 +75,7 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     public void onResume() {
         super.onResume();
         mSitesPresenter.start();
+        mBankPresenter.start();
     }
 
     @Override
@@ -114,14 +122,8 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-        List<BunoExpandableListAdapter.BunoItem> data = new ArrayList<>();
-        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_SITE, "Apple", ""));
-        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_SITE, "Pine", ""));
-        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_SITE, "Straw", ""));
-        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_BANK, "Sonata", ""));
-        data.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_BANK, "Audi", ""));
-
-        recyclerView.setAdapter(new BunoExpandableListAdapter(data, mSiteItemListener));
+        bunoItemList = new ArrayList<>();
+        recyclerView.setAdapter(new BunoExpandableListAdapter(bunoItemList, mBunoItemListener));
         return root;
     }
 
@@ -144,8 +146,12 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
 
     @Override
     public void showSites(List<Site> sites) {
+        bunoItemList.clear();
         Log.i("BunoFragment", sites.get(0).getTitle());
-        //refreshData(sites);
+        bunoItemList.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_SITE, "", ""));
+        for ( Site site : sites) {
+            bunoItemList.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_SITE, site.getTitle(), site.getId()));
+        }
     }
 
     @Override
@@ -187,6 +193,12 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
 
     @Override
     public void showBanks(List<Bank> banks) {
+        Log.i("BunoFragment", banks.get(0).getTitle());
+        bunoItemList.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.HEADER, BunoConstants.TITLE_SITE, "", ""));
+        for ( Bank bank : banks) {
+            bunoItemList.add(new BunoExpandableListAdapter.BunoItem(BunoExpandableListAdapter.CHILD, BunoConstants.TITLE_BANK, bank.getTitle(), bank.getId()));
+        }
+
 
     }
 
@@ -194,6 +206,13 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
     public void showAddEditBankUI() {
         Intent intent = new Intent(getContext(), AddEditBankActivity.class);
         startActivityForResult(intent, AddEditBankActivity.REQUEST_ADD_BANK);
+    }
+
+    @Override
+    public void showDetailBankUI(String bankId) {
+        Intent intent = new Intent(getContext(), AddEditBankActivity.class);
+        intent.putExtra(AddEditBankActivity.EXTRA_BANK_ID, bankId);
+        startActivity(intent);
     }
 
     private int getStatusBarColor() {
@@ -218,7 +237,7 @@ public class BunoFragment extends Fragment implements SitesContract.View, BankCo
         }
     }
 
-    public interface SiteItemListener {
-        void onSiteClick(Site clickedSite);
+    public interface BunoItemListener {
+        void onSiteClick(BunoExpandableListAdapter.BunoItem clickedSite);
     }
 }

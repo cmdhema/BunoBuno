@@ -2,9 +2,11 @@ package kjw.kr.bunobuno.data.source;
 
 import android.support.annotation.NonNull;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import kjw.kr.bunobuno.data.Bank;
+import kjw.kr.bunobuno.data.Site;
 import kjw.kr.bunobuno.data.source.local.BankLocalDataSource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -45,7 +47,22 @@ public class BankRepository implements BankDataSource {
     }
 
     @Override
-    public void getBank(@NonNull String bankId, @NonNull GetBankCallback callback) {
+    public void getBank(@NonNull String bankId, @NonNull final GetBankCallback callback) {
+        checkNotNull(bankId);
+        checkNotNull(callback);
+
+        bankLocalDataSource.getBank(bankId, new BankDataSource.GetBankCallback() {
+            @Override
+            public void onBankLoaded(Bank bank) {
+                callback.onBankLoaded(bank);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+
+        });
 
     }
 

@@ -17,6 +17,7 @@ import kjw.kr.bunobuno.util.ActivityUtils;
 public class AddEditBankActivity extends AppCompatActivity {
 
     public static final int REQUEST_ADD_BANK = 2;
+    public static final String EXTRA_BANK_ID = "BANK_ID";
     private AddEditBankPresenter addEditBankPresenter;
 
     @Override
@@ -40,15 +41,15 @@ public class AddEditBankActivity extends AppCompatActivity {
 
         AddEditBankFragment addEditBankFragment = (AddEditBankFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
-        String siteId = getIntent().getStringExtra(AddEditSiteFragment.ARGUMENT_EDIT_SITE_ID);
+        String siteId = getIntent().getStringExtra(AddEditBankFragment.ARGUMENT_EDIT_BANK_ID);
 
         if ( addEditBankFragment == null ) {
             addEditBankFragment = AddEditBankFragment.newInstance();
 
-            if ( getIntent().hasExtra(AddEditSiteFragment.ARGUMENT_EDIT_SITE_ID)) {
+            if ( getIntent().hasExtra(AddEditBankFragment.ARGUMENT_EDIT_BANK_ID)) {
                 actionBar.setTitle("Edit Site");
                 Bundle bundle = new Bundle();
-                bundle.putString(AddEditSiteFragment.ARGUMENT_EDIT_SITE_ID, siteId);
+                bundle.putString(AddEditBankFragment.ARGUMENT_EDIT_BANK_ID, siteId);
                 addEditBankFragment.setArguments(bundle);
             } else
                 actionBar.setTitle("New Site");

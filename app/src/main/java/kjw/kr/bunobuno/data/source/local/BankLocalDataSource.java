@@ -61,11 +61,52 @@ public class BankLocalDataSource implements BankDataSource{
                 banks.add(bank);
             }
         }
+
+        if ( c != null )
+            c.close();
+
+        if ( banks.isEmpty() )
+            callback.onDataNotAvailable();
+        else
+            callback.onBanksLoaded(banks);
     }
 
     @Override
     public void getBank(@NonNull String bankId, @NonNull GetBankCallback callback) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
+        String[] projection = {
+                DBScheme.BankEntry.ENTRY_ID,
+                DBScheme.BankEntry.ENTRY_TITLE,
+                DBScheme.BankEntry.ENTRY_BANK,
+                DBScheme.BankEntry.ENTRY_NUMBER,
+        };
+
+        String selection = DBScheme.BankEntry.ENTRY_ID + " LIKE ?";
+        String[] selectionArgs = {bankId};
+
+        Cursor c = db.query(DBScheme.BankEntry.TABLE_NAME, projection, selection, selectionArgs, null ,null, null);
+        Bank bank = null;
+
+        if ( c != null && c.getCount() > 0 ) {
+            c.moveToFirst();
+
+            String itemId = c.getString(c.getColumnIndexOrThrow(DBScheme.BankEntry.ENTRY_ID));
+            String itemTitle = c.getString(c.getColumnIndexOrThrow(DBScheme.BankEntry.ENTRY_TITLE));
+            String itemNumber = c.getString(c.getColumnIndexOrThrow(DBScheme.BankEntry.ENTRY_NUMBER));
+            int itemBank = c.getInt(c.getColumnIndexOrThrow(DBScheme.BankEntry.ENTRY_BANK));
+            bank = new Bank(itemTitle, itemId, itemNumber, itemBank);
+            Log.i("BankLocalDataSOurce", itemId + ", " + itemTitle);
+            if ( c != null )
+                c.close();
+
+            db.close();
+
+            if ( bank != null )
+                callback.onBankLoaded(bank);
+            else
+                callback.onDataNotAvailable();
+        }
     }
 
     @Override

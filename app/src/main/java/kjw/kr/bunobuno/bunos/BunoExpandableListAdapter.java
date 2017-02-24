@@ -23,9 +23,9 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
     public static final int CHILD = 1;
 
     private List<BunoItem> bunoList;
-    private BunoFragment.SiteItemListener listener;
+    private BunoFragment.BunoItemListener listener;
 
-    public BunoExpandableListAdapter(List<BunoItem> data, BunoFragment.SiteItemListener listener) {
+    public BunoExpandableListAdapter(List<BunoItem> data, BunoFragment.BunoItemListener listener) {
         this.bunoList = data;
         this.listener = listener;
     }
@@ -111,7 +111,7 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
                 itemController.childTv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        listener.onSiteClick(data);
+                        listener.onSiteClick(data);
                     }
                 });
             }
@@ -175,6 +175,46 @@ public class BunoExpandableListAdapter  extends RecyclerView.Adapter<RecyclerVie
             this.childTitle = childTitle;
             this.headerTitle = headerTitle;
             this.id = id;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public String getChildTitle() {
+            return childTitle;
+        }
+
+        public void setChildTitle(String childTitle) {
+            this.childTitle = childTitle;
+        }
+
+        public String getHeaderTitle() {
+            return headerTitle;
+        }
+
+        public void setHeaderTitle(String headerTitle) {
+            this.headerTitle = headerTitle;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public List<BunoItem> getInvisibleChildren() {
+            return invisibleChildren;
+        }
+
+        public void setInvisibleChildren(List<BunoItem> invisibleChildren) {
+            this.invisibleChildren = invisibleChildren;
         }
     }
 

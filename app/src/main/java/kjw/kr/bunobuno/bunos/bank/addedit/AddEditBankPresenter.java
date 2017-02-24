@@ -32,7 +32,7 @@ public class AddEditBankPresenter implements AddEditBankContract.Presenter, Bank
     public void populateBank() {
         if ( isNewBank() )
             throw new RuntimeException("populateBank() was called but bank is new.");
-
+        Log.i("AddEditBankPresenter", "populateBank");
         bankRepository.getBank(bankId, this);
     }
 
@@ -84,6 +84,7 @@ public class AddEditBankPresenter implements AddEditBankContract.Presenter, Bank
 
     @Override
     public void onBankLoaded(Bank bank) {
+        Log.i("AddEditBankPresenter", bank.getTitle() +", " + bank.getNumber());
         addEditBankView.setTitle(bank.getTitle());
         addEditBankView.setBank(bank.getBank());
         addEditBankView.setNumber(bank.getNumber());
