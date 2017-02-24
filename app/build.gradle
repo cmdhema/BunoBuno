@@ -84,4 +84,7 @@ dependencies {
     androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
 
     compile 'com.gordonwong:material-sheet-fab:1.2.1'
+
+    // 카카오톡 sdk를 사용하기 위해 필요.
+    compile group: 'com.kakao.sdk', name: 'kakaolink', version: '1.1.0'
 }
